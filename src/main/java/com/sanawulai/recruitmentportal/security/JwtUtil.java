@@ -1,4 +1,4 @@
-package com.sanawulai.recruitmentportal.util;
+package com.sanawulai.recruitmentportal.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

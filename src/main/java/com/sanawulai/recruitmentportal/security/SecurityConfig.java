@@ -1,6 +1,5 @@
-package com.sanawulai.recruitmentportal.config;
+package com.sanawulai.recruitmentportal.security;
 
-import com.sanawulai.recruitmentportal.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

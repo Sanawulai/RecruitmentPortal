@@ -1,6 +1,5 @@
-package com.sanawulai.recruitmentportal.filter;
+package com.sanawulai.recruitmentportal.security;
 
-import com.sanawulai.recruitmentportal.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

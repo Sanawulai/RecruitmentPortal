@@ -1,12 +1,12 @@
 package com.sanawulai.recruitmentportal.services;
 
-import com.sanawulai.recruitmentportal.dto.request.AuthRequest;
-import com.sanawulai.recruitmentportal.dto.response.AuthResponse;
+import com.sanawulai.recruitmentportal.dto.request.LoginRequest;
+import com.sanawulai.recruitmentportal.dto.response.LoginResponse;
 import com.sanawulai.recruitmentportal.dto.response.RegisterRequest;
 import com.sanawulai.recruitmentportal.entity.User;
 import com.sanawulai.recruitmentportal.enums.Role;
 import com.sanawulai.recruitmentportal.repository.UserRepository;
-import com.sanawulai.recruitmentportal.util.JwtUtil;
+import com.sanawulai.recruitmentportal.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +35,7 @@ public class AuthService {
     //in-memory token blacklist---- i shall use redis for this purpose later
     private Set<String> tokenBlacklist = new HashSet<>();
 
-    public AuthResponse register(RegisterRequest request){
+    public LoginResponse register(RegisterRequest request){
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new RuntimeException("Email already exists");
         }
@@ -50,10 +50,10 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(user);
 
-        return new AuthResponse(token,user.getEmail(),user.getFirstName(),user.getLastName());
+        return new LoginResponse(token,user.getEmail(),user.getFirstName(),user.getLastName());
     }
 
-    public AuthResponse authenticate(AuthRequest request){
+    public LoginResponse authenticate(LoginRequest request){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -63,7 +63,7 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(()->new UsernameNotFoundException("User not found"));
         String token = jwtUtil.generateToken(user);
-        return new AuthResponse(token,user.getEmail(),user.getFirstName(),user.getLastName());
+        return new LoginResponse(token,user.getEmail(),user.getFirstName(),user.getLastName());
     }
     public void logout(String token){
         if(token!=null &&token.startsWith("Bearer ")){
